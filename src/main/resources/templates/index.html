@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메인</title>
+</head>
+<body>
+<th:block th:if="${username} != null">
+    <div>
+        유저아이디: <p th:text="${username}"></p>
+    </div>
+</th:block>
+<th:block th:if="${username} == null">
+    <button><a href="register">회원가입</a></button>
+    <button><a href="login">로그인</a></button>
+</th:block>
+
+</body>
+</html>

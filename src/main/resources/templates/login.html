@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+  <script>
+      login = (() => {
+          let username = document.getElementById("username").value
+          let password = document.getElementById("password").value
+          let data = {username: username, password: password}
+          fetch("/login", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)
+          })
+              .then(response => response.text())
+              .then(text => {
+                  if (text == "true") {
+                      alert("로그인 성공")
+                      location.href = "/"
+                  } else {
+                      alert(text)
+                  }
+              })
+              .catch(error => {
+                  alert("에러")
+                  location.reload()
+              })
+      })
+  </script>
+</head>
+<body>
+<input type="text" id="username">
+<input type="password" id="password">
+<button onclick="login()">로그인</button>
+</body>
+</html>
