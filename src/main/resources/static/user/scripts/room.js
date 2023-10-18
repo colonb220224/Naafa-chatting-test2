@@ -20,6 +20,15 @@ $(document).ready(function(){
 
         //4. subscribe(path, callback)으로 메세지를 받을 수 있음
         stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
+            // for(let i=0; i<res.data.length; i++) {
+            //     sentenceSetHtml += `
+            //                     <li>
+            //                         <span>·</span>${res.data[i].SENTENCE}
+            //                     </li>
+            //           `
+            // }
+            // sentenceSetHtml += `</ul></div>`
+            // $('#sentenceAppend').html(sentenceSetHtml)
             console.log(chat)
             var content = JSON.parse(chat.body);
 
@@ -46,14 +55,17 @@ $(document).ready(function(){
         });
 
         //3. send(path, header, message)로 메세지를 보낼 수 있음
-        stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+        //stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
+        var roomName = document.getElementById("roomName")
+        stomp.send('/pub/chat/message', {}, JSON.stringify({type:'ENTER', roomId: roomId, writer: username, roomName : roomName.value}))
     });
 
-    $("#button-send").on("click", function(e){
+    $("#button-send").on("click", function(){
         var msg = document.getElementById("msg");
+        var roomName = document.getElementById("roomName")
 
         console.log(username + ":" + msg.value);
-        stomp.send('/pub/chat/message', {}, JSON.stringify({roomId: roomId, message: msg.value, writer: username}));
+        stomp.send('/pub/chat/message', {}, JSON.stringify({type: 'TALK', roomId: roomId, message: msg.value, writer: username, roomName : roomName.value}));
         msg.value = '';
     });
 });

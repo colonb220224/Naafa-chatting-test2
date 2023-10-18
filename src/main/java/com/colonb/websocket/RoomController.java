@@ -17,7 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Log4j2
 public class RoomController {
 
-    private final ChatRoomRepository repository;
+//    private final ChatRoomRepository repository;
+    private final RedisChatRoomRepository redisChatRoomRepository;
+
 
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
@@ -26,7 +28,7 @@ public class RoomController {
         log.info("# All Chat Rooms");
         ModelAndView mv = new ModelAndView("/rooms");
 
-        mv.addObject("list", repository.findAllRooms());
+        mv.addObject("list", redisChatRoomRepository.findAllRoom());
 
         return mv;
     }
@@ -36,7 +38,8 @@ public class RoomController {
     public String create(@RequestParam String name, RedirectAttributes rttr){
 
         log.info("# Create Chat Room , name: " + name);
-        rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name));
+        //rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name));
+        rttr.addFlashAttribute("roomName", redisChatRoomRepository.createChatRoom(name));
         return "redirect:/chat/rooms";
     }
 
@@ -46,9 +49,12 @@ public class RoomController {
 
         log.info("# get Chat Room, roomID : " + roomId);
 
-        mav.addObject("room", repository.findRoomById(roomId));
+        mav.addObject("room", redisChatRoomRepository.findRoomById(roomId));
+        mav.addObject("message", redisChatRoomRepository.loadMessage(roomId));
+        System.out.println("mav" + mav);
         mav.setViewName("/room");
 
         return mav;
     }
+
 }
