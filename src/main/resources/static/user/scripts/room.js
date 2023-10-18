@@ -20,15 +20,6 @@ $(document).ready(function(){
 
         //4. subscribe(path, callback)으로 메세지를 받을 수 있음
         stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
-            // for(let i=0; i<res.data.length; i++) {
-            //     sentenceSetHtml += `
-            //                     <li>
-            //                         <span>·</span>${res.data[i].SENTENCE}
-            //                     </li>
-            //           `
-            // }
-            // sentenceSetHtml += `</ul></div>`
-            // $('#sentenceAppend').html(sentenceSetHtml)
             console.log(chat)
             var content = JSON.parse(chat.body);
 
