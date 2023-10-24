@@ -37,7 +37,6 @@ public class RedisChatRoomRepository {
     }
 
     public List<ChatRoom> findAllRoom() {
-        System.out.println(opsHashChatRoom.values(CHAT_ROOMS));
         return opsHashChatRoom.values(CHAT_ROOMS);
     }
 
@@ -72,30 +71,29 @@ public class RedisChatRoomRepository {
     }
 
     public void saveMessage(ChatMessage chatMessage) {
-        // DB 저장
+        // 1. DB 저장
 //        Message message = new Message(chatMessage.getWriter(), chatMessage.getRoomId(), chatMessage.getMessage());
 //        messageRepository.save(message);
 
-        // 1. 직렬화
+        // 2. 직렬화
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
 
-        // 2. redis 저장
+        // 3. redis 저장
         redisTemplate.opsForList().rightPush(chatMessage.getRoomId(), chatMessage);
 
-        // 3. expire 을 이용해서, Key 를 만료시킬 수 있음
+        // 4. expire 을 이용해서, Key 를 만료시킬 수 있음
         redisTemplate.expire(chatMessage.getRoomId(), 5, TimeUnit.MINUTES);
     }
 
-    // 6. 대화 조회 - Redis & DB
+    // 5. 대화 조회 - Redis & DB
     public List<ChatMessage> loadMessage(String roomId) {
         List<ChatMessage> messageList = new ArrayList<>();
 
         // Redis 에서 해당 채팅방의 메시지 100개 가져오기
         List<ChatMessage> redisMessageList = redisTemplate.opsForList().range(roomId, 0, 99);
 
-        // 4. Redis 에서 가져온 메시지가 없다면, DB 에서 메시지 100개 가져오기
+        // 6. Redis 에서 가져온 메시지가 없다면, DB 에서 메시지 100개 가져오기
 //        if (redisMessageList == null || redisMessageList.isEmpty()) {
-//            // 5.
 //            List<ChatMessage> dbMessageList = messageRepository.findTop100ByRoomIdOrderByCreatedAtAsc(roomId);
 //
 //            for (ChatMessage message : dbMessageList) {
@@ -105,7 +103,7 @@ public class RedisChatRoomRepository {
 //                redisTemplateMessage.opsForList().rightPush(roomId, chatMessage);                                // redis 저장
 //            }
 //        } else {
-        // 7.
+
         messageList.addAll(redisMessageList);
 //        }
 

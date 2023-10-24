@@ -51,7 +51,6 @@ public class RoomController {
 
         mav.addObject("room", redisChatRoomRepository.findRoomById(roomId));
         mav.addObject("message", redisChatRoomRepository.loadMessage(roomId));
-        System.out.println("mav" + mav);
         mav.setViewName("/room");
 
         return mav;
