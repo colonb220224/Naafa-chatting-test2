@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+import java.util.Objects;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/chat")
@@ -25,9 +28,7 @@ public class RoomController {
     @GetMapping(value = "/rooms")
     public ModelAndView rooms(){
 
-        log.info("# All Chat Rooms");
         ModelAndView mv = new ModelAndView("/rooms");
-
         mv.addObject("list", redisChatRoomRepository.findAllRoom());
 
         return mv;
@@ -36,23 +37,16 @@ public class RoomController {
     //채팅방 개설
     @PostMapping(value = "/room")
     public String create(@RequestParam String name, RedirectAttributes rttr){
-
-        log.info("# Create Chat Room , name: " + name);
-        //rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name));
         rttr.addFlashAttribute("roomName", redisChatRoomRepository.createChatRoom(name));
         return "redirect:/chat/rooms";
     }
 
     //채팅방 조회
     @GetMapping("/room")
-    public ModelAndView getRoom(String roomId, ModelAndView mav){
-
-        log.info("# get Chat Room, roomID : " + roomId);
-
+    public ModelAndView getRoom(String roomId, ModelAndView mav, HttpSession session){
         mav.addObject("room", redisChatRoomRepository.findRoomById(roomId));
         mav.addObject("message", redisChatRoomRepository.loadMessage(roomId));
         mav.setViewName("/room");
-
         return mav;
     }
 

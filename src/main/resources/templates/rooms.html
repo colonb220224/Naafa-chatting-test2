@@ -3,20 +3,19 @@
 <script th:src="@{/user/scripts/jquery-3.1.1.min.js}"></script>
 <script type="module" th:src="@{/user/scripts/rooms.js}"></script>
 
-<!--<th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">-->
-<!--    <th:block th:fragment="content">-->
-        <div class="container">
-            <div>
-                <ul th:each="room : ${list}">
-                    <li><a th:href="@{/chat/room(roomId=${room.roomId})}">[[${room.name}]]</a></li>
-                </ul>
-            </div>
-        </div>
-        <form th:action="@{/chat/room}" method="post">
-            <input type="text" name="name" class="form-control">
-            <button class="btn btn-secondary">개설하기</button>
-        </form>
-<!--    </th:block>-->
-<!--</th:block>-->
+<div class="container">
+    <div>
+        <ul th:each="room : ${list}" th:if="${session.username} != null">
+            <li><a th:href="@{/chat/room(roomId=${room.roomId})}">[[${room.name}]]</a></li>
+        </ul>
+        <ul th:each="room : ${list}" th:if="${session.username} == null">
+            <li><a onclick="alert('로그인해주세요')">[[${room.name}]]</a></li>
+        </ul>
+    </div>
+</div>
+<form th:action="@{/chat/room}" method="post">
+    <input type="text" name="name" class="form-control">
+    <button class="btn btn-secondary">개설하기</button>
+</form>
 
 </html>
