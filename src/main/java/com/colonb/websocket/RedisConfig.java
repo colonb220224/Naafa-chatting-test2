@@ -24,16 +24,6 @@ public class RedisConfig {
         return new ChannelTopic("chatroom");
     }
 
-//    /**
-//     * redis pub/sub 메시지를 처리하는 listener 설정
-//     */
-//    @Bean
-//    public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
-//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        return container;
-//    }
-
     // MessageListenerAdapter 등록
     @Bean
     public MessageListenerAdapter listenerAdapter(RedisSubscriber redisSubscriber) {
@@ -41,6 +31,7 @@ public class RedisConfig {
     }
 
     // 등록한 ChannelTopic, MessageListenerAdapter로 RedisMessageListenerContainer 등록
+    // redis pub/sub 메시지를 처리하는 listener 설정
     @Bean
     public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory,
                                                               MessageListenerAdapter listenerAdapter,

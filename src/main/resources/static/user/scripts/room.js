@@ -38,14 +38,14 @@ $(document).ready(function(){
         //3. send(path, header, message)로 메세지를 보낼 수 있음
         //stomp.send('/pub/chat/enter', {}, JSON.stringify({roomId: roomId, writer: username}))
         const roomName = document.getElementById("roomName")
-        stomp.send('/pub/chat/message', {}, JSON.stringify({type:'ENTER', roomId: roomId, writer: username, roomName : roomName.value}))
+        stomp.send('/pub/chat/message', {}, JSON.stringify({type:'ENTER', roomId: roomId, roomName : roomName.value}))
     });
 
     $("#button-send").on("click", function(){
         const msg = document.getElementById("msg");
         const roomName = document.getElementById("roomName")
 
-        stomp.send('/pub/chat/message', {}, JSON.stringify({type: 'TALK', roomId: roomId, message: msg.value, writer: username, roomName : roomName.value}));
+        stomp.send('/pub/chat/message', {}, JSON.stringify({type: 'TALK', roomId: roomId, message: msg.value, roomName : roomName.value}));
         msg.value = '';
     });
 });
