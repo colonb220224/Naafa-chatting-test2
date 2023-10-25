@@ -29,8 +29,4 @@ public class RedisChatController {
         redisChatRoomRepository.saveMessage(message);
     }
 
-    @MessageMapping("/chat/roomList")
-    public String roomList() {
-        return "";
-    }
 }
