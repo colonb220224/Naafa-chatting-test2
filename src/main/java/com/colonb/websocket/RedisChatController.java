@@ -28,4 +28,9 @@ public class RedisChatController {
         // DB & Redis 에 대화 저장
         redisChatRoomRepository.saveMessage(message);
     }
+
+    @MessageMapping("/chat/roomList")
+    public String roomList() {
+        return "";
+    }
 }

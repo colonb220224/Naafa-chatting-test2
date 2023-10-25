@@ -1,4 +1,23 @@
 $(document).ready(function(){
+
+    const sockJs = new SockJS("/stomp/chat");
+    //1. SockJS를 내부에 들고있는 stomp를 내어줌
+    const stomp = Stomp.over(sockJs);
+
+    //2. connection이 맺어지면 실행
+    stomp.connect({}, function (){
+
+        stomp.subscribe("/sub/roomList", function(chat){
+            const content = JSON.parse(chat.body);
+            const roodName = content.roomName;
+
+            let str = "<li>";
+            str += "<a href='/chat/room(roomId=${room.roomId}'>" + roodName + "</a>";
+            str += "</li>";
+            $("#msgArea").append(str);
+        });
+    });
+
     $(".btn-create").on("click", function (e){
         e.preventDefault();
         const name = $("input[name='name']").val();
@@ -6,5 +25,6 @@ $(document).ready(function(){
             alert("Please write the name.")
         else
             $("form").submit();
+            stomp.send('/pub/chat/roomList', {}, JSON.stringify({roomId: roomId, roomName : roomName.value}))
     });
 });
