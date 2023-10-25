@@ -21,18 +21,18 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp/chat")
-                .setHandshakeHandler(new DefaultHandshakeHandler(){
-                    @Override
-                    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes){
-                        if (request instanceof ServletServerHttpRequest) {
-                            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-                            HttpSession session = servletRequest.getServletRequest().getSession();
-                            String userName = (String) session.getAttribute("username");  // 예를 들어 "userName"이라는 세션 속성을 사용한다고 가정
-                            return (userName != null) ? new StompPrincipal(userName) : null;
-                        }
-                        return null;
-                    }
-                })
+//                .setHandshakeHandler(new DefaultHandshakeHandler(){
+//                    @Override
+//                    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes){
+//                        if (request instanceof ServletServerHttpRequest) {
+//                            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+//                            HttpSession session = servletRequest.getServletRequest().getSession();
+//                            String userName = (String) session.getAttribute("username");  // 예를 들어 "userName"이라는 세션 속성을 사용한다고 가정
+//                            return (userName != null) ? new StompPrincipal(userName) : null;
+//                        }
+//                        return null;
+//                    }
+//                })
                 .setAllowedOrigins("http://localhost:8080")
                 .withSockJS();
     }

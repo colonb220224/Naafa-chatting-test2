@@ -41,7 +41,6 @@ public class RedisChatRoomRepository {
     }
 
     public ChatRoom findRoomById(String id) {
-        System.out.println(id);
         return opsHashChatRoom.get(CHAT_ROOMS, id);
     }
 
