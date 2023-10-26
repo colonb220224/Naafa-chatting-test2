@@ -5,8 +5,11 @@
 
 <div class="container">
     <div>
-        <ul id="msgArea">
-            <li th:each="room : ${list}"><a th:href="@{/chat/room(roomId=${room.roomId})}">[[${room.name}]]</a></li>
+        <ul th:each="room : ${list}" th:if="${session.username} != null">
+            <li><a th:href="@{/chat/room(roomId=${room.roomId})}">[[${room.name}]]</a></li>
+        </ul>
+        <ul th:each="room : ${list}" th:if="${session.username} == null">
+            <li><a onclick="alert('로그인해주세요')">[[${room.name}]]</a></li>
         </ul>
     </div>
 </div>
