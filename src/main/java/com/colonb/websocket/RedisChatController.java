@@ -21,7 +21,7 @@ public class RedisChatController {
      */
     @MessageMapping("/chat/message")
     public void message(ChatMessage message, Principal principal) {
-//        message.setWriter(principal.getName());
+        message.setWriter(principal.getName());
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
             redisChatRoomRepository.enterChatRoom(message.getRoomId());
             message.setMessage("님이 입장하였습니다!");
