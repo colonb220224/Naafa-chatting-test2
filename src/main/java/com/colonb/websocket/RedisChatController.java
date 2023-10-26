@@ -24,7 +24,7 @@ public class RedisChatController {
         message.setWriter(principal.getName());
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
             redisChatRoomRepository.enterChatRoom(message.getRoomId());
-            message.setMessage("님이 입장하였습니다!");
+            message.setMessage(principal.getName() + "님이 입장하였습니다!");
         }
         // Websocket에 발행된 메시지를 redis로 발행한다(publish)
         redisPublisher.publish(redisChatRoomRepository.getTopic(message.getRoomId()), message);

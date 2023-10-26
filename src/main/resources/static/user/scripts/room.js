@@ -14,7 +14,6 @@ $(document).ready(function(){
         //4. subscribe(path, callback)으로 메세지를 받을 수 있음
         stomp.subscribe("/sub/chat/room/" + roomId, function (chat) {
             const content = JSON.parse(chat.body);
-            console.log(content.message)
 
             const writer = content.writer;
             const message = content.message;
