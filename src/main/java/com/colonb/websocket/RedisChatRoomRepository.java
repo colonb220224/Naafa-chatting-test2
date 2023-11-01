@@ -37,7 +37,6 @@ public class RedisChatRoomRepository {
     }
 
     public List<ChatRoom> findAllRoom() {
-        opsHashChatRoom.delete(CHAT_ROOMS, "339f87eb-ca12-41e7-9fad-05d483eb66ea");
         return opsHashChatRoom.values(CHAT_ROOMS);
     }
 
