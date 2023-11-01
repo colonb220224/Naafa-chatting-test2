@@ -11,18 +11,20 @@ $(document).ready(function(){
             const name = content.name;
 
             let str = "<li>";
-            str += "<a href='/chat/room(roomId=${room.roomId}'>" + name + "</a>";
+            str += "<a href='/chat/room?roomId=" + content.roomId +"'>" + name + "</a>";
             str += "</li>";
             $("#msgArea").append(str);
         });
     });
 
     $("#btn-create").on("click", function (e){
-        e.preventDefault();
+        // e.preventDefault();
         const name = $("input[name='name']").val();
-        if(name == "")
-            alert("Please write the name.")
-        else
-            stomp.send('/pub/chat/roomList', {}, JSON.stringify({name : name}))
+        if(name == "") {
+            alert("방이름을 써주세요")
+        } else {
+            $("input[name='name']").val("");
+            stomp.send('/pub/chat/roomList', {}, JSON.stringify({name: name}))
+        }
     });
 });
